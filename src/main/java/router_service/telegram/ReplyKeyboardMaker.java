@@ -1,4 +1,4 @@
-package router_service;
+package router_service.telegram;
 
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Message;
@@ -7,6 +7,7 @@ import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardMar
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.KeyboardButton;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.KeyboardRow;
+import router_service.client.TrackingsClient;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,7 +16,6 @@ public class ReplyKeyboardMaker {
     public static ReplyKeyboardMarkup getMainMenuKeyboard() {
         KeyboardRow row1 = new KeyboardRow();
         KeyboardButton keyboardButton = new KeyboardButton("Users");
-
 
         row1.add(new KeyboardButton("Users"));
         row1.add(new KeyboardButton("Teams"));
@@ -45,7 +45,7 @@ public class ReplyKeyboardMaker {
         inlineKeyboardButton1.setText("Administration");
         inlineKeyboardButton1.setCallbackData("Button \"Administration\" has been pressed");
         inlineKeyboardButton2.setText("Tracking");
-        inlineKeyboardButton2.setCallbackData("Button \"Tracking\" has been pressed");
+        inlineKeyboardButton2.setCallbackData(TrackingsClient.getTracking(1L).getTrackingNote());
 
         List<InlineKeyboardButton> keyboardButtonsRow1 = new ArrayList<>();
         List<InlineKeyboardButton> keyboardButtonsRow2 = new ArrayList<>();
