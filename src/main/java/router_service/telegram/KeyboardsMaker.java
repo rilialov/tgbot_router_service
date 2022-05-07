@@ -1,7 +1,5 @@
 package router_service.telegram;
 
-import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
-import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardMarkup;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton;
@@ -11,33 +9,18 @@ import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.Keyboard
 import java.util.ArrayList;
 import java.util.List;
 
-public class ReplyKeyboardMaker {
-    private final InlineKeyboardMarkup trackingKeyboard = new InlineKeyboardMarkup();
+public class KeyboardsMaker {
+    private final InlineKeyboardMarkup startKeyboard;
+    private final ReplyKeyboardMarkup mainMenuKeyboard;
+    private final InlineKeyboardMarkup trackingKeyboard;
 
-    public static ReplyKeyboardMarkup getMainMenuKeyboard() {
-        KeyboardRow row1 = new KeyboardRow();
-
-        row1.add(new KeyboardButton("Users"));
-        row1.add(new KeyboardButton("Teams"));
-
-        KeyboardRow row2 = new KeyboardRow();
-        row2.add(new KeyboardButton("Tasks"));
-        row2.add(new KeyboardButton("Reports"));
-
-        List<KeyboardRow> keyboard = new ArrayList<>();
-        keyboard.add(row1);
-        keyboard.add(row2);
-
-        final ReplyKeyboardMarkup replyKeyboardMarkup = new ReplyKeyboardMarkup();
-        replyKeyboardMarkup.setKeyboard(keyboard);
-        replyKeyboardMarkup.setSelective(true);
-        replyKeyboardMarkup.setResizeKeyboard(true);
-        replyKeyboardMarkup.setOneTimeKeyboard(false);
-
-        return replyKeyboardMarkup;
+    public KeyboardsMaker() {
+        startKeyboard = setStartKeyboard();
+        mainMenuKeyboard = setMainMenuKeyboard();
+        trackingKeyboard = setTrackingKeyBoard();
     }
 
-    public static SendMessage sendMainInlineKeyBoardMessage(Message message) {
+    public static InlineKeyboardMarkup setStartKeyboard() {
         InlineKeyboardMarkup inlineKeyboardMarkup = new InlineKeyboardMarkup();
         InlineKeyboardButton inlineKeyboardButton1 = new InlineKeyboardButton();
         InlineKeyboardButton inlineKeyboardButton2 = new InlineKeyboardButton();
@@ -56,15 +39,11 @@ public class ReplyKeyboardMaker {
         rowList.add(keyboardButtonsRow1);
         rowList.add(keyboardButtonsRow2);
         inlineKeyboardMarkup.setKeyboard(rowList);
-
-        SendMessage sendMessage = new SendMessage();
-        sendMessage.setChatId(message.getChatId().toString());
-        sendMessage.setText("Hi, " + message.getFrom().getFirstName() + "! Please choose an action:");
-        sendMessage.setReplyMarkup(inlineKeyboardMarkup);
-        return sendMessage;
+        return inlineKeyboardMarkup;
     }
 
-    public SendMessage sendTrackingInlineKeyBoardMessage(Message message) {
+    private static InlineKeyboardMarkup setTrackingKeyBoard() {
+        InlineKeyboardMarkup inlineKeyboardMarkup = new InlineKeyboardMarkup();
         InlineKeyboardButton inlineKeyboardButton1 = new InlineKeyboardButton();
         InlineKeyboardButton inlineKeyboardButton2 = new InlineKeyboardButton();
 
@@ -81,13 +60,39 @@ public class ReplyKeyboardMaker {
         List<List<InlineKeyboardButton>> rowList = new ArrayList<>();
         rowList.add(keyboardButtonsRow1);
         rowList.add(keyboardButtonsRow2);
-        trackingKeyboard.setKeyboard(rowList);
+        inlineKeyboardMarkup.setKeyboard(rowList);
+        return inlineKeyboardMarkup;
+    }
 
-        SendMessage sendMessage = new SendMessage();
-        sendMessage.setChatId(message.getChatId().toString());
-        sendMessage.setText("Please choose an action:");
-        sendMessage.setReplyMarkup(trackingKeyboard);
-        return sendMessage;
+    private static ReplyKeyboardMarkup setMainMenuKeyboard() {
+        KeyboardRow row1 = new KeyboardRow();
+
+        row1.add(new KeyboardButton("Users"));
+        row1.add(new KeyboardButton("Teams"));
+
+        KeyboardRow row2 = new KeyboardRow();
+        row2.add(new KeyboardButton("Tasks"));
+        row2.add(new KeyboardButton("Reports"));
+
+        List<KeyboardRow> keyboard = new ArrayList<>();
+        keyboard.add(row1);
+        keyboard.add(row2);
+
+        final ReplyKeyboardMarkup MainMenuKeyboard = new ReplyKeyboardMarkup();
+        MainMenuKeyboard.setKeyboard(keyboard);
+        MainMenuKeyboard.setSelective(true);
+        MainMenuKeyboard.setResizeKeyboard(true);
+        MainMenuKeyboard.setOneTimeKeyboard(false);
+
+        return MainMenuKeyboard;
+    }
+
+    public InlineKeyboardMarkup getStartKeyboard() {
+        return startKeyboard;
+    }
+
+    public ReplyKeyboardMarkup getMainMenuKeyboard() {
+        return mainMenuKeyboard;
     }
 
     public InlineKeyboardMarkup getTrackingKeyboard() {

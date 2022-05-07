@@ -10,12 +10,12 @@ public class Tracking {
     private LocalDateTime endTime;
     private String trackingNote;
     private Task task;
-    private String user;
+    private long user;
 
     public Tracking() {
     }
 
-    public Tracking(String trackingNote, Task task, String user) {
+    public Tracking(String trackingNote, Task task, long user) {
         this.startTime = LocalDateTime.now();
         this.trackingNote = trackingNote;
         this.task = task;
@@ -54,11 +54,11 @@ public class Tracking {
         this.task = task;
     }
 
-    public String getUser() {
+    public long getUser() {
         return user;
     }
 
-    public void setUser(String user) {
+    public void setUser(long user) {
         this.user = user;
     }
 
