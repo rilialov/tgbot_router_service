@@ -1,22 +1,19 @@
 package router_service.telegram;
 
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
-import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardMarkup;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton;
-import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.KeyboardButton;
-import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.KeyboardRow;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class KeyboardsMaker {
     private final InlineKeyboardMarkup startKeyboard;
-    private final ReplyKeyboardMarkup mainMenuKeyboard;
+    private final InlineKeyboardMarkup administrationKeyboard;
     private final InlineKeyboardMarkup trackingKeyboard;
 
     public KeyboardsMaker() {
         startKeyboard = setStartKeyboard();
-        mainMenuKeyboard = setMainMenuKeyboard();
+        administrationKeyboard = setAdministrationKeyboard();
         trackingKeyboard = setTrackingKeyBoard();
     }
 
@@ -46,16 +43,52 @@ public class KeyboardsMaker {
         InlineKeyboardMarkup inlineKeyboardMarkup = new InlineKeyboardMarkup();
         InlineKeyboardButton inlineKeyboardButton1 = new InlineKeyboardButton();
         InlineKeyboardButton inlineKeyboardButton2 = new InlineKeyboardButton();
+        InlineKeyboardButton inlineKeyboardButton3 = new InlineKeyboardButton();
 
         inlineKeyboardButton1.setText("Create Tracking");
         inlineKeyboardButton1.setCallbackData("createTracking");
         inlineKeyboardButton2.setText("Update Tracking");
         inlineKeyboardButton2.setCallbackData("updateTracking");
+        inlineKeyboardButton3.setText("Delete Tracking");
+        inlineKeyboardButton3.setCallbackData("deleteTracking");
+
+        List<InlineKeyboardButton> keyboardButtonsRow1 = new ArrayList<>();
+        List<InlineKeyboardButton> keyboardButtonsRow2 = new ArrayList<>();
+        List<InlineKeyboardButton> keyboardButtonsRow3 = new ArrayList<>();
+        keyboardButtonsRow1.add(inlineKeyboardButton1);
+        keyboardButtonsRow2.add(inlineKeyboardButton2);
+        keyboardButtonsRow3.add(inlineKeyboardButton3);
+
+        List<List<InlineKeyboardButton>> rowList = new ArrayList<>();
+        rowList.add(keyboardButtonsRow1);
+        rowList.add(keyboardButtonsRow2);
+        rowList.add(keyboardButtonsRow3);
+        inlineKeyboardMarkup.setKeyboard(rowList);
+        return inlineKeyboardMarkup;
+    }
+
+    private static InlineKeyboardMarkup setAdministrationKeyboard() {
+        InlineKeyboardMarkup inlineKeyboardMarkup = new InlineKeyboardMarkup();
+        InlineKeyboardButton inlineKeyboardButton1 = new InlineKeyboardButton();
+        InlineKeyboardButton inlineKeyboardButton2 = new InlineKeyboardButton();
+        InlineKeyboardButton inlineKeyboardButton3 = new InlineKeyboardButton();
+        InlineKeyboardButton inlineKeyboardButton4 = new InlineKeyboardButton();
+
+        inlineKeyboardButton1.setText("Users");
+        inlineKeyboardButton1.setCallbackData("users");
+        inlineKeyboardButton2.setText("Teams");
+        inlineKeyboardButton2.setCallbackData("teams");
+        inlineKeyboardButton3.setText("Tasks");
+        inlineKeyboardButton3.setCallbackData("tasks");
+        inlineKeyboardButton4.setText("Reports");
+        inlineKeyboardButton4.setCallbackData("reports");
 
         List<InlineKeyboardButton> keyboardButtonsRow1 = new ArrayList<>();
         List<InlineKeyboardButton> keyboardButtonsRow2 = new ArrayList<>();
         keyboardButtonsRow1.add(inlineKeyboardButton1);
-        keyboardButtonsRow2.add(inlineKeyboardButton2);
+        keyboardButtonsRow1.add(inlineKeyboardButton2);
+        keyboardButtonsRow2.add(inlineKeyboardButton3);
+        keyboardButtonsRow2.add(inlineKeyboardButton4);
 
         List<List<InlineKeyboardButton>> rowList = new ArrayList<>();
         rowList.add(keyboardButtonsRow1);
@@ -64,35 +97,12 @@ public class KeyboardsMaker {
         return inlineKeyboardMarkup;
     }
 
-    private static ReplyKeyboardMarkup setMainMenuKeyboard() {
-        KeyboardRow row1 = new KeyboardRow();
-
-        row1.add(new KeyboardButton("Users"));
-        row1.add(new KeyboardButton("Teams"));
-
-        KeyboardRow row2 = new KeyboardRow();
-        row2.add(new KeyboardButton("Tasks"));
-        row2.add(new KeyboardButton("Reports"));
-
-        List<KeyboardRow> keyboard = new ArrayList<>();
-        keyboard.add(row1);
-        keyboard.add(row2);
-
-        final ReplyKeyboardMarkup MainMenuKeyboard = new ReplyKeyboardMarkup();
-        MainMenuKeyboard.setKeyboard(keyboard);
-        MainMenuKeyboard.setSelective(true);
-        MainMenuKeyboard.setResizeKeyboard(true);
-        MainMenuKeyboard.setOneTimeKeyboard(false);
-
-        return MainMenuKeyboard;
-    }
-
     public InlineKeyboardMarkup getStartKeyboard() {
         return startKeyboard;
     }
 
-    public ReplyKeyboardMarkup getMainMenuKeyboard() {
-        return mainMenuKeyboard;
+    public InlineKeyboardMarkup getAdministrationKeyboard() {
+        return administrationKeyboard;
     }
 
     public InlineKeyboardMarkup getTrackingKeyboard() {
