@@ -7,11 +7,9 @@ import router_service.client.TasksClient;
 import router_service.client.TrackingsClient;
 import router_service.model.Task;
 import router_service.model.Tracking;
-import router_service.telegram.KeyboardsMaker;
+import router_service.telegram.util.KeyboardsMaker;
 import router_service.telegram.util.TelegramUser;
 import router_service.telegram.util.UserCommandsCache;
-
-import java.time.LocalDateTime;
 
 public class MessageHandler {
     private final KeyboardsMaker keyboardsMaker = new KeyboardsMaker();
@@ -55,9 +53,10 @@ public class MessageHandler {
         return answer;
     }
 
-    private SendMessage getTrackUpdatingMessage(String chatId, String trackingNumber) {
-        Tracking tracking = TrackingsClient.getTracking(Long.parseLong(trackingNumber));
-        tracking.setEndTime(LocalDateTime.now());
+    private SendMessage getTrackUpdatingMessage(String chatId, String trackingNote) {
+        String argument = UserCommandsCache.getArgument(new TelegramUser(chatId));
+        Tracking tracking = TrackingsClient.getTracking(Long.parseLong(argument));
+        tracking.setTrackingNote(trackingNote);
         TrackingsClient.updateTracking(tracking.getId(), tracking);
 
         SendMessage answer = new SendMessage();
@@ -65,4 +64,6 @@ public class MessageHandler {
         answer.setText("updated");
         return answer;
     }
+
+
 }

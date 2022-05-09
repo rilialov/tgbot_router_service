@@ -44,61 +44,50 @@ public class TrackingsClient {
                     .build();
             HttpResponse<String> response = HttpClient.newHttpClient()
                     .send(request, HttpResponse.BodyHandlers.ofString());
-            trackings = gson.fromJson(response.body(), new TypeToken<List<Tracking>>(){}.getType());
+            trackings = gson.fromJson(response.body(), new TypeToken<List<Tracking>>() {
+            }.getType());
         } catch (URISyntaxException | IOException | InterruptedException e) {
             e.printStackTrace();
         }
         return trackings;
     }
 
-    public static Tracking createTracking(Tracking tracking) {
-        Tracking created = new Tracking();
+    public static void createTracking(Tracking tracking) {
         try {
             Gson GSON = new GsonBuilder().create();
             HttpRequest request = HttpRequest.newBuilder()
                     .uri(new URI(SERVER_ADDRESS + "/trackings/"))
                     .POST(HttpRequest.BodyPublishers.ofString(GSON.toJson(tracking)))
                     .build();
-            HttpResponse<String> response = HttpClient.newHttpClient()
-                    .send(request, HttpResponse.BodyHandlers.ofString());
-            created = gson.fromJson(response.body(), Tracking.class);
+            HttpClient.newHttpClient().send(request, HttpResponse.BodyHandlers.ofString());
         } catch (URISyntaxException | IOException | InterruptedException e) {
             e.printStackTrace();
         }
-        return created;
     }
 
-    public static Tracking updateTracking(long id, Tracking tracking) {
-        Tracking created = new Tracking();
+    public static void updateTracking(long id, Tracking tracking) {
         try {
             Gson GSON = new GsonBuilder().create();
             HttpRequest request = HttpRequest.newBuilder()
                     .uri(new URI(SERVER_ADDRESS + "/trackings/" + id))
                     .PUT(HttpRequest.BodyPublishers.ofString(GSON.toJson(tracking)))
                     .build();
-            HttpResponse<String> response = HttpClient.newHttpClient()
-                    .send(request, HttpResponse.BodyHandlers.ofString());
-            created = gson.fromJson(response.body(), Tracking.class);
+            HttpClient.newHttpClient().send(request, HttpResponse.BodyHandlers.ofString());
         } catch (URISyntaxException | IOException | InterruptedException e) {
             e.printStackTrace();
         }
-        return created;
     }
 
-    public static Tracking deleteTracking(long id) {
-        Tracking tracking = new Tracking();
+    public static void deleteTracking(long id) {
         try {
             HttpRequest request = HttpRequest.newBuilder()
                     .uri(new URI(SERVER_ADDRESS + "/trackings/" + id))
                     .DELETE()
                     .build();
-            HttpResponse<String> response = HttpClient.newHttpClient()
-                    .send(request, HttpResponse.BodyHandlers.ofString());
-            tracking = gson.fromJson(response.body(), Tracking.class);
+            HttpClient.newHttpClient().send(request, HttpResponse.BodyHandlers.ofString());
         } catch (URISyntaxException | IOException | InterruptedException e) {
             e.printStackTrace();
         }
-        return tracking;
     }
 
 }
