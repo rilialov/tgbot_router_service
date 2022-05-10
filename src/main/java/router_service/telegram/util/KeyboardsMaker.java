@@ -10,36 +10,44 @@ public class KeyboardsMaker {
     private final InlineKeyboardMarkup startKeyboard;
     private final InlineKeyboardMarkup administrationKeyboard;
     private final InlineKeyboardMarkup trackingKeyboard;
+    private final InlineKeyboardMarkup userKeyboard;
 
     public KeyboardsMaker() {
         startKeyboard = setStartKeyboard();
         administrationKeyboard = setAdministrationKeyboard();
-        trackingKeyboard = setTrackingKeyBoard();
+        trackingKeyboard = setTrackingKeyboard();
+        userKeyboard = setUserKeyboard();
     }
 
     public static InlineKeyboardMarkup setStartKeyboard() {
         InlineKeyboardMarkup inlineKeyboardMarkup = new InlineKeyboardMarkup();
         InlineKeyboardButton inlineKeyboardButton1 = new InlineKeyboardButton();
         InlineKeyboardButton inlineKeyboardButton2 = new InlineKeyboardButton();
+        InlineKeyboardButton inlineKeyboardButton3 = new InlineKeyboardButton();
 
-        inlineKeyboardButton1.setText("Administration");
-        inlineKeyboardButton1.setCallbackData("admin");
-        inlineKeyboardButton2.setText("Tracking");
-        inlineKeyboardButton2.setCallbackData("track");
+        inlineKeyboardButton1.setText("Add me to users list");
+        inlineKeyboardButton1.setCallbackData("addUser");
+        inlineKeyboardButton2.setText("Administration");
+        inlineKeyboardButton2.setCallbackData("admin");
+        inlineKeyboardButton3.setText("Tracking");
+        inlineKeyboardButton3.setCallbackData("track");
 
         List<InlineKeyboardButton> keyboardButtonsRow1 = new ArrayList<>();
         List<InlineKeyboardButton> keyboardButtonsRow2 = new ArrayList<>();
+        List<InlineKeyboardButton> keyboardButtonsRow3 = new ArrayList<>();
         keyboardButtonsRow1.add(inlineKeyboardButton1);
         keyboardButtonsRow2.add(inlineKeyboardButton2);
+        keyboardButtonsRow3.add(inlineKeyboardButton3);
 
         List<List<InlineKeyboardButton>> rowList = new ArrayList<>();
         rowList.add(keyboardButtonsRow1);
         rowList.add(keyboardButtonsRow2);
+        rowList.add(keyboardButtonsRow3);
         inlineKeyboardMarkup.setKeyboard(rowList);
         return inlineKeyboardMarkup;
     }
 
-    private static InlineKeyboardMarkup setTrackingKeyBoard() {
+    private static InlineKeyboardMarkup setTrackingKeyboard() {
         InlineKeyboardMarkup inlineKeyboardMarkup = new InlineKeyboardMarkup();
         InlineKeyboardButton inlineKeyboardButton1 = new InlineKeyboardButton();
         InlineKeyboardButton inlineKeyboardButton2 = new InlineKeyboardButton();
@@ -99,6 +107,28 @@ public class KeyboardsMaker {
         return inlineKeyboardMarkup;
     }
 
+    private static InlineKeyboardMarkup setUserKeyboard() {
+        InlineKeyboardMarkup inlineKeyboardMarkup = new InlineKeyboardMarkup();
+        InlineKeyboardButton inlineKeyboardButton1 = new InlineKeyboardButton();
+        InlineKeyboardButton inlineKeyboardButton2 = new InlineKeyboardButton();
+
+        inlineKeyboardButton1.setText("Update user");
+        inlineKeyboardButton1.setCallbackData("updateUser");
+        inlineKeyboardButton2.setText("Delete user");
+        inlineKeyboardButton2.setCallbackData("deleteUser");
+
+        List<InlineKeyboardButton> keyboardButtonsRow1 = new ArrayList<>();
+        List<InlineKeyboardButton> keyboardButtonsRow2 = new ArrayList<>();
+        keyboardButtonsRow1.add(inlineKeyboardButton1);
+        keyboardButtonsRow1.add(inlineKeyboardButton2);
+
+        List<List<InlineKeyboardButton>> rowList = new ArrayList<>();
+        rowList.add(keyboardButtonsRow1);
+        rowList.add(keyboardButtonsRow2);
+        inlineKeyboardMarkup.setKeyboard(rowList);
+        return inlineKeyboardMarkup;
+    }
+
     public InlineKeyboardMarkup getStartKeyboard() {
         return startKeyboard;
     }
@@ -109,5 +139,9 @@ public class KeyboardsMaker {
 
     public InlineKeyboardMarkup getTrackingKeyboard() {
         return trackingKeyboard;
+    }
+
+    public InlineKeyboardMarkup getUserKeyboard() {
+        return userKeyboard;
     }
 }
