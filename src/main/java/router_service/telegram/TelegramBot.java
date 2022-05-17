@@ -52,15 +52,11 @@ public class TelegramBot extends TelegramLongPollingBot {
     }
 
     private void loadProperties() {
-        String USER_DIR = System.getProperty("user.dir");
-        File file = new File(USER_DIR + "\\application.properties");
         Properties properties = new Properties();
         try {
-            FileReader fileReader = new FileReader(file);
-            properties.load(fileReader);
+            properties.load(this.getClass().getResourceAsStream("../../application.properties"));
         } catch (IOException e) {
             e.printStackTrace();
-
         }
         botName = properties.getProperty("botName");
         botToken = properties.getProperty("botToken");
